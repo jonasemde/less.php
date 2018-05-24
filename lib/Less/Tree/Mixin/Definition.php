@@ -195,13 +195,13 @@ class Less_Tree_Mixin_Definition extends Less_Tree_Ruleset{
              $this->frames = array();
         }
 
-		$frame = $this->compileParams($env, array_merge($this->frames,$env->frames), $args );
+		$frame = $this->compileParams($env, array_merge(is_array($this->frames) ? $this->frames : [],is_array($env->frames) ? $env->frames : []), $args );
 
 		$compile_env = new Less_Environment();
 		$compile_env->frames = array_merge(
-				array($frame)		// the parameter variables
-				, $this->frames		// the parent namespace/mixin frames
-				, $env->frames		// the current environment frames
+				array($frame)		                       // the parameter variables
+				, is_array($this->frames) ? $this->frames : [] // the parent namespace/mixin frames
+				, is_array($env->frames) ? $env->frames : []   // the current environment frames
 			);
 
 		$compile_env->functions = $env->functions;
